@@ -50,6 +50,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <Reference Include="System.Runtime.Remoting" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -64,4 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\remoteNotesLib\remoteNotesLib.csproj">
+      <Project>{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}</Project>
+      <Name>remoteNotesLib</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

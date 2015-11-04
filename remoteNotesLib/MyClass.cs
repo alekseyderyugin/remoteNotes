@@ -7,6 +7,10 @@ namespace remoteNotesLib
 		public MyClass ()
 		{
 		}
+		public void getMessage(string arg){
+			Console.WriteLine(arg);
+		}
+
 	}
 }
 

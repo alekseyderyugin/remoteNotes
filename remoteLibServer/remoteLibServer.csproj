@@ -31,10 +31,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Remoting" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\remoteNotesLib\remoteNotesLib.csproj">
+      <Project>{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}</Project>
+      <Name>remoteNotesLib</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
