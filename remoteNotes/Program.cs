@@ -3,20 +3,18 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Http;
 using remoteNotesLib;
-
 using Gtk;
-
 
 namespace remoteNotes
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+		public static void Main(string[] args)
 		{
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
+			Application.Init();
+			MainWindow win = new MainWindow();
+			win.Show();
+			Application.Run();
 
 			HttpClientChannel channel = new HttpClientChannel();
 			ChannelServices.RegisterChannel(channel);
@@ -28,7 +26,6 @@ namespace remoteNotes
 			);
 
 			// Cast the returned proxy to the SimpleMath type
-
 			MyClass obj = (MyClass)remoteObj;
 
 			// Use the remote object
