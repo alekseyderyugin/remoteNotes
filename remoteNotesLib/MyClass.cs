@@ -2,15 +2,16 @@
 
 namespace remoteNotesLib
 {
-	public class MyClass
+	public class MyClass : MarshalByRefObject
 	{
-		public MyClass ()
+		public MyClass()
 		{
+			Console.WriteLine("Contructor called");
 		}
-		public void getMessage(string arg){
+
+		public void getMessage(string arg)
+		{
 			Console.WriteLine(arg);
 		}
-
 	}
 }
-

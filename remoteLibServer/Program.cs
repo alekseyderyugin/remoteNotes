@@ -3,11 +3,12 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Http;
 using remoteNotesLib;
+
 namespace remoteLibServer
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+		public static void Main(string[] args)
 		{
 			HttpChannel channel = new HttpChannel(13101);
 
@@ -15,7 +16,7 @@ namespace remoteLibServer
 
 			RemotingConfiguration.RegisterWellKnownServiceType(
 				typeof(remoteNotesLib.MyClass), 
-				"MyURI.soap",
+				"myURI.soap",
 				WellKnownObjectMode.Singleton
 			);
 
@@ -23,5 +24,5 @@ namespace remoteLibServer
 			Console.WriteLine("Server started. Press Enter to end");
 			Console.ReadLine();
 		}
-}
+	}
 }
