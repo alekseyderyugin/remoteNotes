@@ -10,7 +10,7 @@ namespace remoteNotesLib
 				Deleted,
 				NoChange
 		}
-		
+		[Serializable]
 		public class Note
 		{
 				private int id;
@@ -21,11 +21,18 @@ namespace remoteNotesLib
 
 				public Note()
 				{
-								this.id = base.GetHashCode();
-								this.StateField = StateField.NoChange;
-								this.date = DateTime.Now;
-
+						this.id = base.GetHashCode();
+						this.StateField = StateField.NoChange;
+						this.date = DateTime.Now;
+						this.title = "";
+						this.content = "";					
+						
 				}
-		}
+			public Note(string title, string content){
+						this.title = title;
+						this.content = content;
+						this.id = base.GetHashCode();
+						this.date = DateTime.Now;
+			}
 }
 
