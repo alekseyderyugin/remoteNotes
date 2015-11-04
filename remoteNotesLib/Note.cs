@@ -17,7 +17,7 @@ namespace remoteNotesLib
 				private DateTime date;
 				public string title;
 				public string content;
-				private StateField StateField;
+				public StateField StateField;
 
 				public Note()
 				{
