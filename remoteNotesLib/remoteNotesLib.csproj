@@ -31,9 +31,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="NotesSingleton.cs" />
+    <Compile Include="NotesClientActivated.cs" />
+    <Compile Include="NoteTransactionSinglecall.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,32 +7,43 @@ using Gtk;
 
 namespace remoteNotes
 {
-	class MainClass
-	{
-		public static void Main(string[] args)
-		{		
-				HttpClientChannel channel = new HttpClientChannel();
-				ChannelServices.RegisterChannel(channel);
+		class MainClass
+		{
+				public static void Main(string[] args)
+				{			
+						HttpClientChannel channel = new HttpClientChannel();
+						ChannelServices.RegisterChannel(channel);
 
-				// Go get the remote object
-				object remoteObj = Activator.GetObject(
-					typeof(remoteNotesLib.MyClass),
-					"http://localhost:13101/myURI.soap"
-				);
+						// Go get the remote object
+						object notesSingleton = Activator.GetObject(
+								typeof(remoteNotesLib.NotesSingleton),
+								"http://localhost:13101/notesSingleton.soap"
+						);
 
-				// Cast the returned proxy to the SimpleMath type
-				MyClass obj = (MyClass)remoteObj;
+						//object noteTransactionSinglecall = Activator.GetObject(
+								//typeof(remoteNotesLib.NoteTransactionSinglecall),
+								//"http://localhost:13000/NoteTransactionSinglecall.soap"
+						//);
 
-				// Use the remote object
-				obj.getMessage("hui na na!");	
-				
-				Application.Init();
-				MainWindow win = new MainWindow();
-				win.Show();
-				Application.Run();
+						//object notesClientActivated = Activator.GetObject(
+								//typeof(remoteNotesLib.NotesClientActivated),
+								//"http://localhost:13000/NotesClientActivated.soap"
+						//);
 
-				
-				Console.ReadLine();
-			}
-	}
+						// Cast the returned proxy to the SimpleMath type
+						NotesSingleton singleton = (NotesSingleton)notesSingleton;
+						//NoteTransactionSinglecall singlecall = (NoteTransactionSinglecall)notesSingleton;
+						//NotesClientActivated clientActivated = (NotesClientActivated)notesClientActivated;
+
+						// Use the remote object
+						singleton.getPersistentData();	
+
+						Application.Init();
+						MainWindow win = new MainWindow();
+						win.Show();
+						Application.Run();
+
+						Console.ReadLine();
+				}
+		}
 }

@@ -6,23 +6,32 @@ using remoteNotesLib;
 
 namespace remoteLibServer
 {
-	class MainClass
-	{
-		public static void Main(string[] args)
+		class MainClass
 		{
-			HttpChannel channel = new HttpChannel(13101);
+				public static void Main(string[] args)
+				{
+						HttpChannel channel = new HttpChannel(13101);
+						ChannelServices.RegisterChannel(channel);
 
-			ChannelServices.RegisterChannel(channel);
+						RemotingConfiguration.RegisterWellKnownServiceType(
+								typeof(remoteNotesLib.NotesSingleton), 
+								"notesSingleton.soap",
+								WellKnownObjectMode.Singleton
+						);
 
-			RemotingConfiguration.RegisterWellKnownServiceType(
-				typeof(remoteNotesLib.MyClass), 
-				"myURI.soap",
-				WellKnownObjectMode.Singleton
-			);
+						//RemotingConfiguration.RegisterWellKnownServiceType(
+								//typeof(remoteNotesLib.NoteTransactionSinglecall), 
+								//"NoteTransactionSinglecall.soap",
+								//WellKnownObjectMode.SingleCall
+						//);
 
-			// Keep the server alive until enter is pressed.
-			Console.WriteLine("Server started. Press Enter to end");
-			Console.ReadLine();
+						//RemotingConfiguration.RegisterActivatedServiceType(
+								//typeof(remoteNotesLib.NotesClientActivated)
+						//);
+
+						// Keep the server alive until enter is pressed.
+						Console.WriteLine("Server started. Press Enter to end");
+						Console.ReadLine();
+				}
 		}
-	}
 }
