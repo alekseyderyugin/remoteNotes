@@ -1,37 +1,17 @@
 ﻿using System;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Http;
-using remoteNotesLib;
 
 namespace remoteLibServer
 {
-		class MainClass
-		{
-				public static void Main(string[] args)
-				{
-						HttpChannel channel = new HttpChannel(13101);
-						ChannelServices.RegisterChannel(channel);
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            RemotingConfiguration.Configure("remoteLibServer.exe.config", false);
 
-						RemotingConfiguration.RegisterWellKnownServiceType(
-								typeof(remoteNotesLib.NotesSingleton), 
-								"notesSingleton.soap",
-								WellKnownObjectMode.Singleton
-						);
-
-						//RemotingConfiguration.RegisterWellKnownServiceType(
-								//typeof(remoteNotesLib.NoteTransactionSinglecall), 
-								//"NoteTransactionSinglecall.soap",
-								//WellKnownObjectMode.SingleCall
-						//);
-
-						//RemotingConfiguration.RegisterActivatedServiceType(
-								//typeof(remoteNotesLib.NotesClientActivated)
-						//);
-
-						// Keep the server alive until enter is pressed.
-						Console.WriteLine("Server started. Press Enter to end");
-						Console.ReadLine();
-				}
-		}
+            // Keep the server alive until enter is pressed.
+            Console.WriteLine("Server started. Press Enter to end");
+            Console.ReadLine();
+        }
+    }
 }

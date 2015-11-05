@@ -1,49 +1,28 @@
 ﻿using System;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Http;
 using remoteNotesLib;
 using Gtk;
 
 namespace remoteNotes
 {
-		class MainClass
-		{
-				public static void Main(string[] args)
-				{			
-						HttpClientChannel channel = new HttpClientChannel();
-						ChannelServices.RegisterChannel(channel);
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            System.Threading.Thread.Sleep(1000);
 
-						// Go get the remote object
-						object notesSingleton = Activator.GetObject(
-								typeof(remoteNotesLib.NotesSingleton),
-								"http://localhost:13101/notesSingleton.soap"
-						);
+            RemotingConfiguration.Configure("remoteNotes.exe.config", false);
 
-						//object noteTransactionSinglecall = Activator.GetObject(
-								//typeof(remoteNotesLib.NoteTransactionSinglecall),
-								//"http://localhost:13000/NoteTransactionSinglecall.soap"
-						//);
+            NotesSingleton singleton = new NotesSingleton();
 
-						//object notesClientActivated = Activator.GetObject(
-								//typeof(remoteNotesLib.NotesClientActivated),
-								//"http://localhost:13000/NotesClientActivated.soap"
-						//);
+            Console.WriteLine(singleton.getPersistentData().Count);
 
-						// Cast the returned proxy to the SimpleMath type
-						NotesSingleton singleton = (NotesSingleton)notesSingleton;
-						//NoteTransactionSinglecall singlecall = (NoteTransactionSinglecall)notesSingleton;
-						//NotesClientActivated clientActivated = (NotesClientActivated)notesClientActivated;
+            Application.Init();
+            MainWindow win = new MainWindow();
+            win.Show();
+            Application.Run();
 
-						// Use the remote object
-						singleton.getPersistentData();	
-
-						Application.Init();
-						MainWindow win = new MainWindow();
-						win.Show();
-						Application.Run();
-
-						Console.ReadLine();
-				}
-		}
+            Console.ReadLine();
+        }
+    }
 }

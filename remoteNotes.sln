@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remoteNotesLib", "remoteNotesLib\remoteNotesLib.csproj", "{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}"
 EndProject
@@ -12,10 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Debug|x86.Build.0 = Debug|Any CPU
-		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Release|x86.ActiveCfg = Release|Any CPU
-		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Release|x86.Build.0 = Release|Any CPU
 		{15C86BFA-2046-436C-94F2-8AEAE491FB35}.Debug|x86.ActiveCfg = Debug|x86
 		{15C86BFA-2046-436C-94F2-8AEAE491FB35}.Debug|x86.Build.0 = Debug|x86
 		{15C86BFA-2046-436C-94F2-8AEAE491FB35}.Release|x86.ActiveCfg = Release|x86
@@ -24,14 +21,17 @@ Global
 		{84A40CCF-6839-4F9E-9B55-DA882684A77B}.Debug|x86.Build.0 = Debug|x86
 		{84A40CCF-6839-4F9E-9B55-DA882684A77B}.Release|x86.ActiveCfg = Release|x86
 		{84A40CCF-6839-4F9E-9B55-DA882684A77B}.Release|x86.Build.0 = Release|x86
+		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Debug|x86.Build.0 = Debug|Any CPU
+		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Release|x86.ActiveCfg = Release|Any CPU
+		{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 120
-		$1.TabWidth = 2
-		$1.IndentWidth = 2
-		$1.inheritsSet = Mono
+		$1.NoTabsAfterNonTabs = True
+		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $2
@@ -57,7 +57,7 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 		$0.StandardHeader = $4
-		$4.Text =
+		$4.Text = 
 		$4.IncludeInNewFiles = True
 		$0.DotNetNamingPolicy = $5
 		$5.DirectoryNamespaceAssociation = None
@@ -186,5 +186,23 @@ Global
 		$27.NamingStyle = PascalCase
 		$27.IncludeInstanceMembers = True
 		$27.IncludeStaticEntities = True
+		$0.TextStylePolicy = $29
+		$29.inheritsSet = null
+		$29.scope = application/config+xml
+		$0.XmlFormattingPolicy = $30
+		$30.inheritsSet = null
+		$30.scope = application/config+xml
+		$0.TextStylePolicy = $31
+		$31.FileWidth = 120
+		$31.NoTabsAfterNonTabs = True
+		$31.inheritsSet = VisualStudio
+		$31.inheritsScope = text/plain
+		$31.scope = application/xml
+		$0.XmlFormattingPolicy = $32
+		$32.inheritsSet = Mono
+		$32.inheritsScope = application/xml
+		$32.scope = application/xml
+		$0.VersionControlPolicy = $33
+		$33.inheritsSet = Mono
 	EndGlobalSection
 EndGlobal
