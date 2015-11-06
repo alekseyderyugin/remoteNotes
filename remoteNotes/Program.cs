@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Http;
 using remoteNotesLib;
 using Gtk;
 
 namespace remoteNotes
 {
-    class MainClass
-    {
-        public static void Main(string[] args)
-        {
-            System.Threading.Thread.Sleep(1000);
+	class MainClass
+	{
+		public static void Main(string[] args)
+		{
+			System.Threading.Thread.Sleep(1000);
 
             RemotingConfiguration.Configure("remoteNotes.exe.config", false);
 
             NotesSingleton singleton = new NotesSingleton();
 
-            Console.WriteLine(singleton.getPersistentData().Count);
+            Console.WriteLine(singleton.getPesistentData().Count);
 
             Application.Init();
             MainWindow win = new MainWindow();
@@ -23,6 +25,6 @@ namespace remoteNotes
             Application.Run();
 
             Console.ReadLine();
-        }
-    }
+		}
+	}
 }

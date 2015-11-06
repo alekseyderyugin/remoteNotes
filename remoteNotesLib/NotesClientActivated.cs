@@ -1,52 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace remoteNotesLib
-{
-    public class NotesClientActivated : MarshalByRefObject
-    {
+namespace remoteNotesLib {
+    public class NotesClientActivated : MarshalByRefObject {
         private List<Note> notes;
-
-        public NotesClientActivated()
-        {
-            notes = new List<Note>();
-
-            Console.WriteLine("NotesClientActivated created");
+        public NotesClientActivated() {
+            this.notes = new List<Note>();
+            Console.WriteLine("NotesClientActivated was created");
         }
-
-        public void createRecord(Note note)
-        {
+        public void createRecord(Note note){
             note.StateField = StateField.Added;
-
-            notes.Add(note);
+            this.notes.Add(note);
         }
-
-        public void updateRecord(Note note)
-        {
+        public void updateRecord(Note note){
             note.StateField = StateField.Updated;
-
             int index = notes.IndexOf(note);
-
-            notes[index] = note;
+            this.notes[index] = note;
         }
-
-        public void deleteRecord(Note note)
-        {
+        public void deleteRecord(Note note){
             note.StateField = StateField.Deleted;
-
             int index = notes.IndexOf(note);
-
-            notes.RemoveAt(index);
+            this.notes.RemoveAt(index);
+        }
+        public List<Note> requestCacheRecords(){
+            return this.notes;
+        }
+        public void clear(){
+            this.clear();
         }
 
-        public List<Note> requestCacheRecords()
-        {
-            return notes;
-        }
-
-        public void clear()
-        {
-            notes.Clear();
-        }
     }
 }
+

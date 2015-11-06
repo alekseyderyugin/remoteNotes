@@ -2,39 +2,33 @@
 
 namespace remoteNotesLib
 {
-    public enum StateField
-    {
-        Added,
-        Updated,
-        Deleted,
-        NoChange
-    }
+	public enum StateField {
+		Added,
+		Updated,
+		Deleted,
+		NoChange
+	}
+	[Serializable]
+	public class Note {
+		public string title;
+		public string content;
+		public StateField StateField;
 
-    [Serializable]
-    public class Note
-    {
-        public string title;
-        public string content;
-        public StateField StateField;
-
-        private int id;
-        private DateTime date;
-
-        public Note()
-        {
-            id = base.GetHashCode();
-            StateField = StateField.NoChange;
-            date = DateTime.Now;
-            title = "";
-            content = "";
-        }
-
-        public Note(string title, string content)
-        {
-            this.title = title;
+		private int id;
+		private DateTime date;
+		public Note() {
+			this.id=base.GetHashCode();
+			this.StateField = StateField.NoChange;
+			this.date = DateTime.Now;
+			this.title = "";
+			this.content = "";
+		}
+		public Note(string title, string content){
+			this.title = title;
             this.content = content;
-            id = base.GetHashCode();
-            date = DateTime.Now;
-        }
-    }
+            this.id = base.GetHashCode();
+            this.date = DateTime.Now;
+		}
+	}
 }
+
