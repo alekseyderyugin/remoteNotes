@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remoteNotes", "remoteNotes\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remoteNotesLib", "remoteNotesLib\remoteNotesLib.csproj", "{E63369C1-510B-4C1F-9974-FA10D6C5FCD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remoteLibServer", "remoteLibServer\remoteLibServer.csproj", "{15C86BFA-2046-436C-94F2-8AEAE491FB35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "remoteNotesServer", "remoteNotesServer\remoteNotesServer.csproj", "{15C86BFA-2046-436C-94F2-8AEAE491FB35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,26 +29,21 @@ Global
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.TextStylePolicy = $1
+		$1.NoTabsAfterNonTabs = True
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $2
 		$2.IndentSwitchBody = True
 		$2.IndentBlocksInsideExpressions = True
-		$2.NamespaceBraceStyle = EndOfLine
-		$2.ClassBraceStyle = EndOfLine
-		$2.InterfaceBraceStyle = EndOfLine
-		$2.StructBraceStyle = EndOfLine
-		$2.EnumBraceStyle = EndOfLine
-		$2.MethodBraceStyle = EndOfLine
-		$2.ConstructorBraceStyle = EndOfLine
-		$2.DestructorBraceStyle = EndOfLine
+		$2.AnonymousMethodBraceStyle = NextLine
 		$2.PropertyBraceStyle = NextLine
 		$2.PropertyGetBraceStyle = NextLine
 		$2.PropertySetBraceStyle = NextLine
 		$2.EventBraceStyle = NextLine
 		$2.EventAddBraceStyle = NextLine
 		$2.EventRemoveBraceStyle = NextLine
+		$2.StatementBraceStyle = NextLine
 		$2.ElseNewLinePlacement = NewLine
 		$2.CatchNewLinePlacement = NewLine
 		$2.FinallyNewLinePlacement = NewLine
@@ -67,8 +62,7 @@ Global
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
 		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabsToSpaces = False
+		$3.NoTabsAfterNonTabs = True
 		$3.inheritsSet = VisualStudio
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
@@ -76,7 +70,7 @@ Global
 		$4.DirectoryNamespaceAssociation = None
 		$4.ResourceNamePolicy = FileFormatDefault
 		$0.StandardHeader = $5
-		$5.Text = 
+		$5.Text = @/**\n * Copyright (c) 2015 Alexey Deryugin\n * Copyright (c) 2015 Vladislav Mileshkin\n *\n * This software may be modified and distributed under the terms\n * of the MIT license.  See the LICENSE file for details.\n */
 		$5.IncludeInNewFiles = True
 		$0.NameConventionPolicy = $6
 		$6.Rules = $7
@@ -202,5 +196,27 @@ Global
 		$27.NamingStyle = PascalCase
 		$27.IncludeInstanceMembers = True
 		$27.IncludeStaticEntities = True
+		$0.TextStylePolicy = $29
+		$29.FileWidth = 120
+		$29.NoTabsAfterNonTabs = True
+		$29.inheritsSet = VisualStudio
+		$29.inheritsScope = text/plain
+		$29.scope = application/xml
+		$0.XmlFormattingPolicy = $30
+		$30.inheritsSet = Mono
+		$30.inheritsScope = application/xml
+		$30.scope = application/xml
+		$0.TextStylePolicy = $31
+		$31.FileWidth = 120
+		$31.NoTabsAfterNonTabs = True
+		$31.inheritsSet = VisualStudio
+		$31.inheritsScope = text/plain
+		$31.scope = application/config+xml
+		$0.XmlFormattingPolicy = $32
+		$32.inheritsSet = null
+		$32.scope = application/config+xml
+		$0.VersionControlPolicy = $33
+		$33.inheritsSet = Mono
+		version = 0.0.1
 	EndGlobalSection
 EndGlobal

@@ -7,11 +7,11 @@ using Gtk;
 
 namespace remoteNotes
 {
-	class MainClass
-	{
-		public static void Main(string[] args)
-		{
-			System.Threading.Thread.Sleep(1000);
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            System.Threading.Thread.Sleep(1000);
 
             RemotingConfiguration.Configure("remoteNotes.exe.config", false);
 
@@ -25,6 +25,6 @@ namespace remoteNotes
             Application.Run();
 
             Console.ReadLine();
-		}
-	}
+        }
+    }
 }
