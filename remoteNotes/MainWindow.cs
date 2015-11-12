@@ -1,5 +1,4 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 
 public partial class MainWindow: Gtk.Window
 {
