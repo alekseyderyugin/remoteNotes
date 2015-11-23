@@ -2,9 +2,9 @@
 
 namespace remoteNotesLib
 {
-    public class NoteTransactionSinglecall : MarshalByRefObject
+    public class NotesTransactionSinglecall : MarshalByRefObject
     {
-        public NoteTransactionSinglecall()
+        public NotesTransactionSinglecall()
         {
             Console.WriteLine("NoteTransactionSinglecall was created");
         }
