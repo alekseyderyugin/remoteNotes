@@ -133,6 +133,7 @@ public partial class MainWindow: Gtk.Window
 
     private void refreshAction(object obj, EventArgs args)
     {
+        clientActivated.printNotes();
         store.Clear();
         foreach (Note note in singleton.getPesistentData())
         {
@@ -142,16 +143,15 @@ public partial class MainWindow: Gtk.Window
 
     private void createAction(object obj, EventArgs args)
     {
-        
-        Note note = new Note("Note", "Empty");
+        Note note = new Note("", "");
         store.AddNode(new NoteTreeNode(note));
-        Logger.Write("CreateAction()");
         clientActivated.createRecord(note);
     }
 
     private void updateAction(object obj, EventArgs args)
     {
-        
+        NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
+        clientActivated.updateRecord(selected.getNote());
     }
 
     private void deleteAction(object obj, EventArgs args)

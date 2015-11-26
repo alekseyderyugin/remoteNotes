@@ -2,7 +2,7 @@
 
 namespace remoteNotesLib
 {
-    public enum StateField
+    public enum State
     {
         Added,
         Updated,
@@ -13,27 +13,56 @@ namespace remoteNotesLib
     [Serializable]
     public class Note
     {
+        private Guid id;
+        public State state;
+
         public string title;
         public string content;
 
-        private Guid id;
-        public StateField StateField;
-
         public Note()
         {
+            id = Guid.NewGuid();
+            state = State.NoChange;
+
             title = "";
             content = "";
-
-            id = Guid.NewGuid();
-            StateField = StateField.NoChange;
         }
 
         public Note(string title, string content)
         {
+            id = Guid.NewGuid();
+            state = State.NoChange;
+
             this.title = title;
             this.content = content;
+        }
 
-            id = Guid.NewGuid();
+        public String Inspect()
+        {
+            String id = "id: " + this.id;
+            String state = "state: " + this.state;
+            String title = "title: " + this.title;
+            return id + ", " + state + ", " + title;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            else
+            {
+                Note otherNote = other as Note;
+                if (otherNote == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return id == otherNote.id;
+                }
+            }
         }
     }
 }

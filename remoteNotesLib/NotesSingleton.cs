@@ -26,5 +26,14 @@ namespace remoteNotesLib
             notes.Add(new Note("Заметка 2", "Контент заметки 2"));
             notes.Add(new Note("Заметка 3", "Контент заметки 3"));
         }
+
+        public void printNotes()
+        {
+            Logger.Write("Singleton stored notes:");
+            foreach (Note note in notes)
+            {
+                Logger.Write(note.Inspect());
+            }
+        }
     }
 }

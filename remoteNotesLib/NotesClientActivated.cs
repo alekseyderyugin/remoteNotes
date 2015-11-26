@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace remoteNotesLib
 {
@@ -15,22 +16,20 @@ namespace remoteNotesLib
 
         public void createRecord(Note note)
         {
-            note.StateField = StateField.Added;
+            //note.state = State.Added;
             notes.Add(note);
         }
 
         public void updateRecord(Note note)
         {
-            note.StateField = StateField.Updated;
-            int index = notes.IndexOf(note);
-            notes[index] = note;
+            note.state = State.Updated;
+            AddOrReplaceIfExists(note);
         }
 
         public void deleteRecord(Note note)
         {
-            note.StateField = StateField.Deleted;
-            int index = notes.IndexOf(note);
-            notes.RemoveAt(index);
+            note.state = State.Deleted;
+            AddOrReplaceIfExists(note);
         }
 
         public List<Note> requestCacheRecords()
@@ -40,7 +39,31 @@ namespace remoteNotesLib
 
         public void clear()
         {
-            clear();
+            notes.Clear();
+        }
+
+        private void AddOrReplaceIfExists(Note note)
+        {
+            int index = notes.IndexOf(note); 
+            //Если записи нет в списке транзакции, добавляем её
+            if (index == -1)
+            {
+                notes.Add(note);
+            }
+            //Иначе запись уже присутствует в списке транзакции, заменяем ёе на новейшую версию
+            else
+            {
+                notes[index] = note;
+            }
+        }
+
+        public void printNotes()
+        {
+            Logger.Write("ClentActivated stored notes:");
+            foreach (Note note in notes)
+            {
+                Logger.Write(note.Inspect());
+            }
         }
     }
 }
