@@ -15,26 +15,25 @@ namespace remoteNotesLib
     {
         public string title;
         public string content;
-        public StateField StateField;
 
-        private int id;
-        private DateTime date;
+        private Guid id;
+        public StateField StateField;
 
         public Note()
         {
-            id = base.GetHashCode();
-            StateField = StateField.NoChange;
-            date = DateTime.Now;
             title = "";
             content = "";
+
+            id = Guid.NewGuid();
+            StateField = StateField.NoChange;
         }
 
         public Note(string title, string content)
         {
             this.title = title;
             this.content = content;
-            this.id = base.GetHashCode();
-            this.date = DateTime.Now;
+
+            id = Guid.NewGuid();
         }
     }
 }
