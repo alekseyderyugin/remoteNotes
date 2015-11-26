@@ -30,6 +30,7 @@ Global
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.NoTabsAfterNonTabs = True
+		$1.EolMarker = Unix
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
@@ -43,17 +44,12 @@ Global
 		$2.EventBraceStyle = NextLine
 		$2.EventAddBraceStyle = NextLine
 		$2.EventRemoveBraceStyle = NextLine
-		$2.StatementBraceStyle = NextLine
-		$2.ElseNewLinePlacement = NewLine
-		$2.CatchNewLinePlacement = NewLine
-		$2.FinallyNewLinePlacement = NewLine
-		$2.WhileNewLinePlacement = DoNotCare
 		$2.ArrayInitializerWrapping = DoNotChange
 		$2.ArrayInitializerBraceStyle = NextLine
 		$2.BeforeMethodDeclarationParentheses = False
 		$2.BeforeMethodCallParentheses = False
 		$2.BeforeConstructorDeclarationParentheses = False
-		$2.NewLineBeforeConstructorInitializerColon = NewLine
+		$2.NewLineBeforeConstructorInitializerColon = SameLine
 		$2.NewLineAfterConstructorInitializerColon = SameLine
 		$2.BeforeDelegateDeclarationParentheses = False
 		$2.NewParentheses = False
@@ -63,6 +59,7 @@ Global
 		$2.scope = text/x-csharp
 		$0.TextStylePolicy = $3
 		$3.NoTabsAfterNonTabs = True
+		$3.EolMarker = Unix
 		$3.inheritsSet = VisualStudio
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
@@ -199,6 +196,7 @@ Global
 		$0.TextStylePolicy = $29
 		$29.FileWidth = 120
 		$29.NoTabsAfterNonTabs = True
+		$29.EolMarker = Unix
 		$29.inheritsSet = VisualStudio
 		$29.inheritsScope = text/plain
 		$29.scope = application/xml
@@ -209,6 +207,7 @@ Global
 		$0.TextStylePolicy = $31
 		$31.FileWidth = 120
 		$31.NoTabsAfterNonTabs = True
+		$31.EolMarker = Unix
 		$31.inheritsSet = VisualStudio
 		$31.inheritsScope = text/plain
 		$31.scope = application/config+xml

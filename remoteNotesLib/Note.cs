@@ -47,19 +47,13 @@ namespace remoteNotesLib
 
         public override bool Equals(object other)
         {
-            if (other == null)
-            {
+            if (other == null) {
                 return false;
-            }
-            else
-            {
+            } else {
                 Note otherNote = other as Note;
-                if (otherNote == null)
-                {
+                if (otherNote == null) {
                     return false;
-                }
-                else
-                {
+                } else {
                     return id == otherNote.id;
                 }
             }

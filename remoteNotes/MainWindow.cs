@@ -47,8 +47,7 @@ public partial class MainWindow: Gtk.Window
     Button updateButton;
     Button deleteButton;
 
-    public MainWindow()
-        : base(Gtk.WindowType.Toplevel)
+    public MainWindow() : base(Gtk.WindowType.Toplevel)
     {
         VBox mainVBox = new VBox(false, 0);
         HBox nodeViewHBox = new HBox(true, 0);
@@ -83,8 +82,7 @@ public partial class MainWindow: Gtk.Window
         singleton = new NotesSingleton();
         singlecall = new NotesTransactionSinglecall();
 
-        foreach (Note note in singleton.getPesistentData())
-        {
+        foreach (Note note in singleton.getPesistentData()) {
             store.AddNode(new NoteTreeNode(note));
         }
 
@@ -116,8 +114,7 @@ public partial class MainWindow: Gtk.Window
     {
         get
         {
-            if (store == null)
-            {
+            if (store == null) {
                 store = new Gtk.NodeStore(typeof(NoteTreeNode));
 
             }
@@ -135,8 +132,7 @@ public partial class MainWindow: Gtk.Window
     {
         clientActivated.printNotes();
         store.Clear();
-        foreach (Note note in singleton.getPesistentData())
-        {
+        foreach (Note note in singleton.getPesistentData()) {
             store.AddNode(new NoteTreeNode(note));
         }
     }

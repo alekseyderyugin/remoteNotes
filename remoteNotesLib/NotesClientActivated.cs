@@ -45,14 +45,11 @@ namespace remoteNotesLib
         private void AddOrReplaceIfExists(Note note)
         {
             int index = notes.IndexOf(note); 
-            //Если записи нет в списке транзакции, добавляем её
-            if (index == -1)
-            {
+            if (index == -1) {
+                //Если записи нет в списке транзакции, добавляем её
                 notes.Add(note);
-            }
-            //Иначе запись уже присутствует в списке транзакции, заменяем ёе на новейшую версию
-            else
-            {
+            } else {
+                //Иначе запись уже присутствует в списке транзакции, заменяем ёе на новейшую версию
                 notes[index] = note;
             }
         }
@@ -60,8 +57,7 @@ namespace remoteNotesLib
         public void printNotes()
         {
             Logger.Write("ClentActivated stored notes:");
-            foreach (Note note in notes)
-            {
+            foreach (Note note in notes) {
                 Logger.Write(note.Inspect());
             }
         }

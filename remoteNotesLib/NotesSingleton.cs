@@ -30,8 +30,7 @@ namespace remoteNotesLib
         public void printNotes()
         {
             Logger.Write("Singleton stored notes:");
-            foreach (Note note in notes)
-            {
+            foreach (Note note in notes) {
                 Logger.Write(note.Inspect());
             }
         }
