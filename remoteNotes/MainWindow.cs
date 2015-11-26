@@ -30,7 +30,7 @@ public class NoteTreeNode : Gtk.TreeNode
         }
     }
 
-    public Note getNote()
+    public Note GetNote()
     {
         return note;
     }
@@ -61,11 +61,11 @@ public partial class MainWindow: Gtk.Window
         Button commitButton = new Button("Commit");
         Button rollbackButton = new Button("Rollback");
 
-        refreshButton.Clicked += refreshAction;
-        createButton.Clicked += createAction;
-        updateButton.Clicked += updateAction;
-        deleteButton.Clicked += deleteAction;
-        commitButton.Clicked += commitAction;
+        refreshButton.Clicked += RefreshAction;
+        createButton.Clicked += CreateAction;
+        updateButton.Clicked += UpdateAction;
+        deleteButton.Clicked += DeleteAction;
+        commitButton.Clicked += CommitAction;
         rollbackButton.Clicked += rollbackAction;
 
         updateButton.Sensitive = false;
@@ -82,7 +82,7 @@ public partial class MainWindow: Gtk.Window
         singleton = new NotesSingleton();
         singlecall = new NotesTransactionSinglecall();
 
-        foreach (Note note in singleton.getPesistentData()) {
+        foreach (Note note in singleton.GetPesistentData()) {
             store.AddNode(new NoteTreeNode(note));
         }
 
@@ -128,42 +128,42 @@ public partial class MainWindow: Gtk.Window
         deleteButton.Sensitive = true;
     }
 
-    private void refreshAction(object obj, EventArgs args)
+    private void RefreshAction(object obj, EventArgs args)
     {
-        clientActivated.printNotes();
+        clientActivated.PrintNotes();
         store.Clear();
-        foreach (Note note in singleton.getPesistentData()) {
+        foreach (Note note in singleton.GetPesistentData()) {
             store.AddNode(new NoteTreeNode(note));
         }
     }
 
-    private void createAction(object obj, EventArgs args)
+    private void CreateAction(object obj, EventArgs args)
     {
         Note note = new Note("", "");
         store.AddNode(new NoteTreeNode(note));
-        clientActivated.createRecord(note);
+        clientActivated.CreateRecord(note);
     }
 
-    private void updateAction(object obj, EventArgs args)
+    private void UpdateAction(object obj, EventArgs args)
     {
         NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-        clientActivated.updateRecord(selected.getNote());
+        clientActivated.UpdateRecord(selected.GetNote());
     }
 
-    private void deleteAction(object obj, EventArgs args)
+    private void DeleteAction(object obj, EventArgs args)
     {
         NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-        clientActivated.deleteRecord(selected.getNote());
+        clientActivated.DeleteRecord(selected.GetNote());
     }
 
-    private void commitAction(object obj, EventArgs args)
+    private void CommitAction(object obj, EventArgs args)
     {
-        singlecall.commit(clientActivated);
+        singlecall.Commit(clientActivated);
     }
 
     private void rollbackAction(object obj, EventArgs args)
     {
-        singlecall.rollback(clientActivated);
+        singlecall.Rollback(clientActivated);
     }
 
     protected void OnDeleteEvent(object sender, DeleteEventArgs a)

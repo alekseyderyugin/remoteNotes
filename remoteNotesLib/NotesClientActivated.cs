@@ -13,30 +13,30 @@ namespace remoteNotesLib
             Logger.Write("NotesClientActivated was created");
         }
 
-        public void createRecord(Note note)
+        public void CreateRecord(Note note)
         {
             //note.state = State.Added;
             notes.Add(note);
         }
 
-        public void updateRecord(Note note)
+        public void UpdateRecord(Note note)
         {
             note.state = State.Updated;
             AddOrReplaceIfExists(note);
         }
 
-        public void deleteRecord(Note note)
+        public void DeleteRecord(Note note)
         {
             note.state = State.Deleted;
             AddOrReplaceIfExists(note);
         }
 
-        public List<Note> requestCacheRecords()
+        public List<Note> RequestCacheRecords()
         {
             return notes;
         }
 
-        public void clear()
+        public void Clear()
         {
             notes.Clear();
         }
@@ -53,7 +53,7 @@ namespace remoteNotesLib
             }
         }
 
-        public void printNotes()
+        public void PrintNotes()
         {
             Logger.Write("ClentActivated stored notes:");
             foreach (Note note in notes) {
