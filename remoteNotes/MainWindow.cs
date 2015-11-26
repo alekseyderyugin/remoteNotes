@@ -26,8 +26,8 @@ public class NoteTreeNode : Gtk.TreeNode
     {
         get
         {
-            return note.content; 
-        } 
+            return note.content;
+        }
     }
 
     public Note getNote()

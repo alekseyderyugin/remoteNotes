@@ -11,7 +11,7 @@ namespace remoteNotesLib
 
         public void commit(NotesClientActivated clientCache)
         {
-            
+
         }
 
         public void rollback(NotesClientActivated clientCache)

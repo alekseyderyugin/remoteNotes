@@ -44,7 +44,7 @@ namespace remoteNotesLib
 
         private void AddOrReplaceIfExists(Note note)
         {
-            int index = notes.IndexOf(note); 
+            int index = notes.IndexOf(note);
             if (index == -1) {
                 //Если записи нет в списке транзакции, добавляем её
                 notes.Add(note);
