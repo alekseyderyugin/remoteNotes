@@ -16,7 +16,7 @@ namespace remoteNotesLib
 
         public void rollback(NotesClientActivated clientCache)
         {
-            clientCache.clear();
+            //clientCache.clear();
         }
     }
 }

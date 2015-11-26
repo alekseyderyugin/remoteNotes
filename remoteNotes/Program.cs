@@ -13,10 +13,6 @@ namespace remoteNotes
 
             RemotingConfiguration.Configure("remoteNotes.exe.config", false);
 
-            NotesSingleton singleton = new NotesSingleton();
-
-            Console.WriteLine(singleton.getPesistentData().Count);
-
             Application.Init();
             MainWindow win = new MainWindow();
             win.Show();
