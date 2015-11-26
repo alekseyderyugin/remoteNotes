@@ -9,12 +9,12 @@ namespace remoteNotesLib
             Logger.Write("NoteTransactionSinglecall was created");
         }
 
-        public void Commit(NotesClientActivated clientCache)
+        public void Commit(NotesClientActivated clientActivated)
         {
 
         }
 
-        public void Rollback(NotesClientActivated clientCache)
+        public void Rollback(NotesClientActivated clientActivated)
         {
             //clientCache.clear();
         }

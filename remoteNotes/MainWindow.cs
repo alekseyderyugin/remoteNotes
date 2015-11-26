@@ -1,5 +1,6 @@
 ﻿using Gtk;
 using System;
+using System.Runtime.Remoting;
 using remoteNotesLib;
 
 [Gtk.TreeNode(ListOnly = true)]
@@ -44,9 +45,6 @@ public partial class MainWindow: Gtk.Window
 
     Gtk.NodeView view;
 
-    Button updateButton;
-    Button deleteButton;
-
     public MainWindow() : base(Gtk.WindowType.Toplevel)
     {
         VBox mainVBox = new VBox(false, 0);
@@ -56,8 +54,8 @@ public partial class MainWindow: Gtk.Window
 
         Button refreshButton = new Button("Refresh");
         Button createButton = new Button("Create");
-        updateButton = new Button("Update");
-        deleteButton = new Button("Delete");
+        Button updateButton = new Button("Update");
+        Button deleteButton = new Button("Delete");
         Button commitButton = new Button("Commit");
         Button rollbackButton = new Button("Rollback");
 
@@ -68,19 +66,25 @@ public partial class MainWindow: Gtk.Window
         commitButton.Clicked += CommitAction;
         rollbackButton.Clicked += rollbackAction;
 
-        updateButton.Sensitive = false;
-        deleteButton.Sensitive = false;
-
         HSeparator separator = new HSeparator();
 
         view = new Gtk.NodeView(Store);
         view.AppendColumn("Title", new Gtk.CellRendererText(), "text", 0);
         view.AppendColumn("Content", new Gtk.CellRendererText(), "text", 1);
-        view.NodeSelection.Changed += OnSelectionChanged;
 
-        clientActivated = new NotesClientActivated();
-        singleton = new NotesSingleton();
-        singlecall = new NotesTransactionSinglecall();
+        try {
+            //Если сервер и клиент запускаются из ИДЕ (по порядку, но практически одновременно),
+            //сервер не успевает создать сокет, поэтому надо немного подождать
+            System.Threading.Thread.Sleep(1000);
+            RemotingConfiguration.Configure("remoteNotes.exe.config", false);
+
+            clientActivated = new NotesClientActivated();
+            singleton = new NotesSingleton();
+            singlecall = new NotesTransactionSinglecall();
+        } catch (System.Net.WebException) {
+            Logger.Write("Unable to connect");
+            return;
+        }
 
         foreach (Note note in singleton.GetPesistentData()) {
             store.AddNode(new NoteTreeNode(note));
@@ -120,12 +124,6 @@ public partial class MainWindow: Gtk.Window
             }
             return store;
         }
-    }
-
-    private void OnSelectionChanged(object obj, EventArgs args)
-    {
-        updateButton.Sensitive = true;
-        deleteButton.Sensitive = true;
     }
 
     private void RefreshAction(object obj, EventArgs args)
