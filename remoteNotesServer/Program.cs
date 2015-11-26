@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Remoting;
+using remoteNotesLib;
 
 namespace remoteLibServer
 {
@@ -9,7 +10,7 @@ namespace remoteLibServer
         {
             RemotingConfiguration.Configure("remoteLibServer.exe.config", false);
 
-            Console.WriteLine("Server started. Press Enter to end");
+            Logger.Write("Server started. Press any key to shutdown");
             Console.ReadLine();
         }
     }

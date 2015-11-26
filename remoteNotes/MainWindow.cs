@@ -145,7 +145,7 @@ public partial class MainWindow: Gtk.Window
         
         Note note = new Note("Note", "Empty");
         store.AddNode(new NoteTreeNode(note));
-        System.Console.Write("12312");
+        Logger.Write("CreateAction()");
         clientActivated.createRecord(note);
     }
 

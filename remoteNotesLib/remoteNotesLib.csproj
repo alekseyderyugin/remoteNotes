@@ -37,6 +37,7 @@
     <Compile Include="NotesSingleton.cs" />
     <Compile Include="NotesClientActivated.cs" />
     <Compile Include="NotesTransactionSinglecall.cs" />
+    <Compile Include="Logger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

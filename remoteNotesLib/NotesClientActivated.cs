@@ -10,7 +10,7 @@ namespace remoteNotesLib
         public NotesClientActivated()
         {
             notes = new List<Note>();
-            Console.WriteLine("NotesClientActivated was created");
+            Logger.Write("NotesClientActivated was created");
         }
 
         public void createRecord(Note note)

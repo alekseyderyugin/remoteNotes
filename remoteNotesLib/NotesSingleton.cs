@@ -11,12 +11,12 @@ namespace remoteNotesLib
         {
             notes = new List<Note>();
             populateNotes();
-            Console.WriteLine("NotesSingleton created");
+            Logger.Write("NotesSingleton was created");
         }
 
         public List<Note> getPesistentData()
         {
-            Console.WriteLine("has called");
+            Logger.Write("getPersistentData()");
             return notes;
         }
 

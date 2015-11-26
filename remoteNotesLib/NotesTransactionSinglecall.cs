@@ -6,7 +6,7 @@ namespace remoteNotesLib
     {
         public NotesTransactionSinglecall()
         {
-            Console.WriteLine("NoteTransactionSinglecall was created");
+            Logger.Write("NoteTransactionSinglecall was created");
         }
 
         public void commit(NotesClientActivated clientCache)

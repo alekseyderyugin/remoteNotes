@@ -8,6 +8,8 @@ namespace remoteNotes
     {
         public static void Main(string[] args)
         {
+            //Если сервер и клиент запускаются из ИДЕ (по порядку, но практически одновременно),
+            //сервер не успевает создать сокет, поэтому надо немного подождать
             System.Threading.Thread.Sleep(1000);
 
             RemotingConfiguration.Configure("remoteNotes.exe.config", false);
