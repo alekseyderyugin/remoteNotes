@@ -22,11 +22,11 @@ namespace remoteNotesLib
 
         public Note()
         {
-            this.id = base.GetHashCode();
-            this.StateField = StateField.NoChange;
-            this.date = DateTime.Now;
-            this.title = "";
-            this.content = "";
+            id = base.GetHashCode();
+            StateField = StateField.NoChange;
+            date = DateTime.Now;
+            title = "";
+            content = "";
         }
 
         public Note(string title, string content)

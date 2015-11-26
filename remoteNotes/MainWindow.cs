@@ -17,7 +17,7 @@ public class NoteTreeNode : Gtk.TreeNode
     {
         get
         {
-            return this.note.title;
+            return note.title;
         }
     }
 
@@ -26,26 +26,26 @@ public class NoteTreeNode : Gtk.TreeNode
     {
         get
         {
-            return this.note.content; 
+            return note.content; 
         } 
     }
 
     public Note getNote()
     {
-        return this.note;
+        return note;
     }
 }
 
 public partial class MainWindow: Gtk.Window
 {
-    private NotesClientActivated clientActivated;
-    private NotesSingleton singleton;
-    private NotesTransactionSinglecall singlecall;
+    NotesClientActivated clientActivated;
+    NotesSingleton singleton;
+    NotesTransactionSinglecall singlecall;
 
-    private Gtk.NodeView view;
+    Gtk.NodeView view;
 
-    private Button updateButton;
-    private Button deleteButton;
+    Button updateButton;
+    Button deleteButton;
 
     public MainWindow()
         : base(Gtk.WindowType.Toplevel)
@@ -57,31 +57,31 @@ public partial class MainWindow: Gtk.Window
 
         Button refreshButton = new Button("Refresh");
         Button createButton = new Button("Create");
-        this.updateButton = new Button("Update");
-        this.deleteButton = new Button("Delete");
+        updateButton = new Button("Update");
+        deleteButton = new Button("Delete");
         Button commitButton = new Button("Commit");
         Button rollbackButton = new Button("Rollback");
 
-        refreshButton.Clicked += this.refreshAction;
-        createButton.Clicked += this.createAction;
-        this.updateButton.Clicked += this.updateAction;
-        this.deleteButton.Clicked += this.deleteAction;
-        commitButton.Clicked += this.commitAction;
-        rollbackButton.Clicked += this.rollbackAction;
+        refreshButton.Clicked += refreshAction;
+        createButton.Clicked += createAction;
+        updateButton.Clicked += updateAction;
+        deleteButton.Clicked += deleteAction;
+        commitButton.Clicked += commitAction;
+        rollbackButton.Clicked += rollbackAction;
 
-        this.updateButton.Sensitive = false;
-        this.deleteButton.Sensitive = false;
+        updateButton.Sensitive = false;
+        deleteButton.Sensitive = false;
 
         HSeparator separator = new HSeparator();
 
-        this.view = new Gtk.NodeView(Store);
+        view = new Gtk.NodeView(Store);
         view.AppendColumn("Title", new Gtk.CellRendererText(), "text", 0);
         view.AppendColumn("Content", new Gtk.CellRendererText(), "text", 1);
-        view.NodeSelection.Changed += new System.EventHandler(OnSelectionChanged);
+        view.NodeSelection.Changed += OnSelectionChanged;
 
-        this.clientActivated = new NotesClientActivated();
-        this.singleton = new NotesSingleton();
-        this.singlecall = new NotesTransactionSinglecall();
+        clientActivated = new NotesClientActivated();
+        singleton = new NotesSingleton();
+        singlecall = new NotesTransactionSinglecall();
 
         foreach (Note note in singleton.getPesistentData())
         {
@@ -127,14 +127,14 @@ public partial class MainWindow: Gtk.Window
 
     private void OnSelectionChanged(object obj, EventArgs args)
     {
-        this.updateButton.Sensitive = true;
-        this.deleteButton.Sensitive = true;
+        updateButton.Sensitive = true;
+        deleteButton.Sensitive = true;
     }
 
     private void refreshAction(object obj, EventArgs args)
     {
         store.Clear();
-        foreach (Note note in this.singleton.getPesistentData())
+        foreach (Note note in singleton.getPesistentData())
         {
             store.AddNode(new NoteTreeNode(note));
         }
@@ -146,7 +146,7 @@ public partial class MainWindow: Gtk.Window
         Note note = new Note("Note", "Empty");
         store.AddNode(new NoteTreeNode(note));
         System.Console.Write("12312");
-        this.clientActivated.createRecord(note);
+        clientActivated.createRecord(note);
     }
 
     private void updateAction(object obj, EventArgs args)
@@ -157,17 +157,17 @@ public partial class MainWindow: Gtk.Window
     private void deleteAction(object obj, EventArgs args)
     {
         NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-        this.clientActivated.deleteRecord(selected.getNote());
+        clientActivated.deleteRecord(selected.getNote());
     }
 
     private void commitAction(object obj, EventArgs args)
     {
-        this.singlecall.commit(this.clientActivated);
+        singlecall.commit(clientActivated);
     }
 
     private void rollbackAction(object obj, EventArgs args)
     {
-        this.singlecall.rollback(clientActivated);
+        singlecall.rollback(clientActivated);
     }
 
     protected void OnDeleteEvent(object sender, DeleteEventArgs a)

@@ -9,39 +9,38 @@ namespace remoteNotesLib
 
         public NotesClientActivated()
         {
-            this.notes = new List<Note>();
+            notes = new List<Note>();
             Console.WriteLine("NotesClientActivated was created");
         }
 
         public void createRecord(Note note)
         {
             note.StateField = StateField.Added;
-            this.notes.Add(note);
+            notes.Add(note);
         }
 
         public void updateRecord(Note note)
         {
             note.StateField = StateField.Updated;
             int index = notes.IndexOf(note);
-            this.notes[index] = note;
+            notes[index] = note;
         }
 
         public void deleteRecord(Note note)
         {
             note.StateField = StateField.Deleted;
             int index = notes.IndexOf(note);
-            this.notes.RemoveAt(index);
+            notes.RemoveAt(index);
         }
 
         public List<Note> requestCacheRecords()
         {
-            return this.notes;
+            return notes;
         }
 
         public void clear()
         {
-            this.clear();
+            clear();
         }
-
     }
 }

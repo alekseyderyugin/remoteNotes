@@ -10,7 +10,7 @@ namespace remoteNotesLib
         public NotesSingleton()
         {
             notes = new List<Note>();
-            this.populateNotes();
+            populateNotes();
             Console.WriteLine("NotesSingleton created");
         }
 

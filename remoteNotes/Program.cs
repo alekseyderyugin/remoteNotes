@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Remoting;
-using remoteNotesLib;
 using Gtk;
 
 namespace remoteNotes
