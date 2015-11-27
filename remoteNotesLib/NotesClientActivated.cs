@@ -15,7 +15,7 @@ namespace remoteNotesLib
 
         public void CreateRecord(Note note)
         {
-            //note.state = State.Added;
+            note.state = State.Added;
             notes.Add(note);
         }
 

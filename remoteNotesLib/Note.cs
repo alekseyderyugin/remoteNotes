@@ -13,20 +13,11 @@ namespace remoteNotesLib
     [Serializable]
     public class Note
     {
-        private Guid id;
+        public Guid id;
         public State state;
 
         public string title;
         public string content;
-
-        public Note()
-        {
-            id = Guid.NewGuid();
-            state = State.NoChange;
-
-            title = "";
-            content = "";
-        }
 
         public Note(string title, string content)
         {
@@ -37,7 +28,7 @@ namespace remoteNotesLib
             this.content = content;
         }
 
-        public String Inspect()
+        public string Inspect()
         {
             String id = "id: " + this.id;
             String state = "state: " + this.state;
@@ -57,6 +48,11 @@ namespace remoteNotesLib
                     return id == otherNote.id;
                 }
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return id.GetHashCode();
         }
     }
 }
