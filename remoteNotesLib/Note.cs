@@ -7,7 +7,6 @@ namespace remoteNotesLib
         Added,
         Updated,
         Deleted,
-        NoChange
     }
 
     [Serializable]
@@ -15,6 +14,7 @@ namespace remoteNotesLib
     {
         public Guid id;
         public State state;
+        public DateTime updatedAt;
 
         public string title;
         public string content;
@@ -22,7 +22,8 @@ namespace remoteNotesLib
         public Note(string title, string content)
         {
             id = Guid.NewGuid();
-            state = State.NoChange;
+            state = State.Added;
+            updatedAt = DateTime.Now;
 
             this.title = title;
             this.content = content;

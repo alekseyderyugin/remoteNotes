@@ -162,6 +162,7 @@ public partial class MainWindow: Gtk.Window
     private void rollbackAction(object obj, EventArgs args)
     {
         singlecall.Rollback(clientActivated);
+        RefreshAction(obj, args);
     }
 
     protected void OnDeleteEvent(object sender, DeleteEventArgs a)

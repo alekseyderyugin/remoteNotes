@@ -16,52 +16,81 @@ namespace remoteNotesLib
         public void Commit(NotesClientActivated clientActivated)
         {
             List<Note> notes = singleton.GetPesistentData();
-            Logger.Write("Record");
-            Logger.Write(notes[0].id.ToString());
-            Logger.Write("notes from db");
-            singleton.PrintNotes();
             List<Note> changedNotes = clientActivated.RequestCacheRecords();
-            Logger.Write("Record");
-            Logger.Write(changedNotes[0].id.ToString());
-            Logger.Write("notes from transaction");
-            clientActivated.PrintNotes();
-            /*Logger.Write(notes.Count.ToString());
-            Logger.Write(changedNotes.Count.ToString());
+
+            Logger.Write("Transaction begin");
+            //Проверка целостности, обеспечивающая атомарность транзакции
+            //т.е. либо запишется всё либо ничего
+            VerifyTransaction(notes, changedNotes);
+            //Завершение транзакции, если проверка пройдена
+            completeTransaction(notes, changedNotes);
+            //Очищение списка транзакции клиента
+            clientActivated.Clear();
+            Logger.Write("Transaction end");
+        }
+
+        private void VerifyTransaction(List<Note> notes, List<Note> changedNotes)
+        {
+            //Для каждого объекта в списке транзакции клиента
             foreach (Note note in changedNotes) {
-                Logger.Write(note.ToString());
+                //Проверяем только удалённые и обновлённые записи,
+                //добавленные добявятся в любом случе без конфликта
+                if (note.state == State.Deleted || note.state == State.Updated) {
+                    //Ищем объект в списке синглтона
+                    int index = notes.IndexOf(note);
+                    if (index == -1) {
+                        //Запись не найдена, значит она уже была удалена
+                        //Rollback();
+                        throw new TransactionException("Не удалось удалить заметку. Она уже была удалена другим клиентом", note);
+                    } else {
+                        Note storedNote = notes[index];
+                        //На этапе создания объекта и при сохранении в синглколл
+                        //устанавливается поле updatedAt, которое содержит таймстамп.
+                        //Тем самым, клиенты, запрашивая список объектов, получают 
+                        //объекты с установленным временем последнего сохранения.
+                        //Когда какой либо из клиентов изменяет запись и (успешно)
+                        //делает коммит, время последнего сохранения объекта обновляется.
+                        //Соотвественно, если детектируется попытка другого 
+                        //клиента обновить (или удалить) запись которая уже была обновлена первым 
+                        //клиентом, транзакция откатывается.
+                        if (note.updatedAt != storedNote.updatedAt) {
+                            //Rollback();
+                            throw new TransactionException("Не удалось обновить заметку. Она уже была обновлена другим клиентом", note);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void completeTransaction(List<Note> notes, List<Note> changedNotes)
+        {
+            //Для каждого объекта в списке транзакции клиента
+            foreach (Note note in changedNotes) {
                 switch (note.state) {
                     case State.Added:
-                        Logger.Write("Added");
                         notes.Add(note);
-                        Logger.Write(note.ToString());
                         break;
                     case State.Deleted:
-                        Logger.Write("Deleted");
-                        int index = notes.IndexOf(note);
-                        //Правильно функционирующий клиент 
-                        //не может содержать в транзации ноду на обновление,
-                        //которой нет на сервере в WKS
-                        //Debug.Assert(index != -1, "Node should exist");
-                        notes.RemoveAt(index);
-                        Logger.Write(note.ToString());
+                        //Получение индекса объекта в списке синглтона и его удаление
+                        notes.RemoveAt(notes.IndexOf(note));
                         break;
                     case State.Updated:
-                        Logger.Write("Updated");
-                        int index1 = notes.IndexOf(note);
-                        //Debug.Assert(index1 != -1, "Node should exist");
-                        notes[index1] = note;
-                        Logger.Write(note.ToString());
+                        //Получение индекса объекта в списке синглтона 
+                        //и замена на обновлённый клиентом
+                        notes[notes.IndexOf(note)] = note;
                         break;
                     default:
-                        Logger.Write("Default case");
+                        //Никогда не должно происходить, 
+                        //т.к. запись может иметь только три состояния.
+                        System.Diagnostics.Debug.Assert(false, "Default case!");
                         break;
                 }
             }
-            */
         }
 
         public void Rollback(NotesClientActivated clientActivated)
         {
+            //Очищение списка транзакции клиента
             clientActivated.Clear();
         }
     }
