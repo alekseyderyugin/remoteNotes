@@ -46,7 +46,7 @@ namespace remoteNotesLib
                     if (index == -1) {
                         //Запись не найдена, значит она уже была удалена
                         //Rollback();
-                        throw new TransactionException("Не удалось обновить или удалить заметку. Она уже была удалена другим клиентом", note);
+                        throw new Exception("Не удалось обновить или удалить заметку. Она уже была удалена другим клиентом");
                     } else {
                         Note storedNote = notes[index];
                         //На этапе создания объекта и при сохранении в синглколл
@@ -60,7 +60,7 @@ namespace remoteNotesLib
                         //клиентом, транзакция откатывается.
                         if (note.updatedAt != storedNote.updatedAt) {
                             //Rollback();
-                            throw new TransactionException("Не удалось обновить заметку. Она уже была обновлена другим клиентом", note);
+                            throw new Exception("Не удалось обновить заметку. Она уже была обновлена другим клиентом");
                         }
                     }
                 }

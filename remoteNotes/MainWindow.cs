@@ -180,8 +180,17 @@ public partial class MainWindow: Gtk.Window
 
     private void CommitButtonClicked(object obj, EventArgs args)
     {
+        
         clientActivated.PrintNotes();
-        singlecall.Commit(clientActivated);
+        try {
+            singlecall.Commit(clientActivated);
+        } catch (Exception e) {
+            Logger.Write(e.Message);
+            MessageDialog dialog = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.None, e.Message);
+            dialog.Show();
+        } finally {
+            RefreshButtonClicked(obj, args);
+        }
     }
 
     private void RollbackButtonClicked(object obj, EventArgs args)
