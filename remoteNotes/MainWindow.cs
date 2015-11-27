@@ -120,7 +120,6 @@ public partial class MainWindow: Gtk.Window
         {
             if (store == null) {
                 store = new Gtk.NodeStore(typeof(NoteTreeNode));
-
             }
             return store;
         }
