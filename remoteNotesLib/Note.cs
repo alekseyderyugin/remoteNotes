@@ -12,9 +12,9 @@ namespace remoteNotesLib
     [Serializable]
     public class Note
     {
-        public Guid id;
-        public State state;
-        public DateTime updatedAt;
+        private Guid id;
+        internal State state;
+        internal DateTime updatedAt;
 
         public string title;
         public string content;

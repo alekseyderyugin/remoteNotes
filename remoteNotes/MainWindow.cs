@@ -4,7 +4,7 @@ using System.Runtime.Remoting;
 using remoteNotesLib;
 
 [Gtk.TreeNode(ListOnly = true)]
-public class NoteTreeNode : Gtk.TreeNode
+public class NoteTreeNode : TreeNode
 {
     public Note note;
 
@@ -43,9 +43,9 @@ public partial class MainWindow: Gtk.Window
     NotesSingleton singleton;
     NotesTransactionSinglecall singlecall;
 
-    Gtk.NodeView view;
+    NodeView view;
 
-    public MainWindow() : base(Gtk.WindowType.Toplevel)
+    public MainWindow() : base(WindowType.Toplevel)
     {
         VBox mainVBox = new VBox(false, 0);
         HBox nodeViewHBox = new HBox(true, 0);
@@ -54,32 +54,30 @@ public partial class MainWindow: Gtk.Window
 
         Button refreshButton = new Button("Refresh");
         Button createButton = new Button("Create");
-        Button updateButton = new Button("Update");
         Button deleteButton = new Button("Delete");
         Button commitButton = new Button("Commit");
         Button rollbackButton = new Button("Rollback");
 
         refreshButton.Clicked += RefreshButtonClicked;
         createButton.Clicked += CreateButtonClicked;
-        updateButton.Clicked += UpdateButtonClicked;
         deleteButton.Clicked += DeleteButtonClicked;
         commitButton.Clicked += CommitButtonClicked;
         rollbackButton.Clicked += RollbackButtonClicked;
 
         HSeparator separator = new HSeparator();
 
-        view = new Gtk.NodeView(Store);
+        view = new NodeView(Store);
 
-        CellRendererText titleRenderer = new Gtk.CellRendererText();
-        CellRendererText contentRenderer = new Gtk.CellRendererText();
+        CellRendererText titleRenderer = new CellRendererText();
+        CellRendererText contentRenderer = new CellRendererText();
 
         titleRenderer.Editable = true;
         contentRenderer.Editable = true;
         titleRenderer.Edited += NoteTitleEdited;
         contentRenderer.Edited += NoteContentEdited;
 
-        view.AppendColumn("Title", new CellRendererText(), "text", 0);
-        view.AppendColumn("Content", new CellRendererText(), "text", 1);
+        view.AppendColumn("Title", titleRenderer, "text", 0);
+        view.AppendColumn("Content", contentRenderer, "text", 1);
 
         try {
             //Если сервер и клиент запускаются из ИДЕ (по порядку, но практически одновременно),
@@ -103,7 +101,6 @@ public partial class MainWindow: Gtk.Window
 
         crudButtonsHBox.PackStart(refreshButton, false, true, 0);
         crudButtonsHBox.PackStart(createButton, false, true, 0);
-        crudButtonsHBox.PackStart(updateButton, false, true, 0);
         crudButtonsHBox.PackStart(deleteButton, false, true, 0);
 
         transactionContolButtonsHBox.PackStart(commitButton, false, true, 0);
@@ -137,28 +134,24 @@ public partial class MainWindow: Gtk.Window
     private void NoteTitleEdited(object o, Gtk.EditedArgs args)
     {
         Logger.Write("edited");
-        //Gtk.TreeIter iter;
-        //store.GetIter(out iter, new Gtk.TreePath(args.Path));
-
-        //Song song = (Song)musicListStore.GetValue(iter, 0);
-        //song.Artist = args.NewText;
+        NoteTreeNode node = store.GetNode(new TreePath(args.Path)) as NoteTreeNode;
+        Note note = node.GetNote();
+        note.title = args.NewText;
+        clientActivated.UpdateRecord(note);
     }
 
     private void NoteContentEdited(object o, Gtk.EditedArgs args)
     {
         Logger.Write("content edited");
-        //Gtk.TreeIter iter;
-        //musicListStore.GetIter(out iter, new Gtk.TreePath(args.Path));
-
-        //Song song = (Song)musicListStore.GetValue(iter, 0);
-        //song.Artist = args.NewText;
+        NoteTreeNode node = store.GetNode(new TreePath(args.Path)) as NoteTreeNode;
+        Note note = node.GetNote();
+        note.content = args.NewText;
+        clientActivated.UpdateRecord(note);
     }
 
     private void RefreshButtonClicked(object obj, EventArgs args)
     {
-        //Logger.Write(singleton.GetHashCode().ToString());
         singleton.PrintNotes();
-        clientActivated.PrintNotes();
         clientActivated.Clear();
         store.Clear();
         FillTable();
@@ -171,24 +164,18 @@ public partial class MainWindow: Gtk.Window
         clientActivated.CreateRecord(note);
     }
 
-    private void UpdateButtonClicked(object obj, EventArgs args)
-    {
-        if (view.NodeSelection.SelectedNode != null) {
-            NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-            clientActivated.UpdateRecord(selected.GetNote());
-        }
-    }
-
     private void DeleteButtonClicked(object obj, EventArgs args)
     {
         if (view.NodeSelection.SelectedNode != null) {
             NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
+            store.RemoveNode(selected);
             clientActivated.DeleteRecord(selected.GetNote());
         }
     }
 
     private void CommitButtonClicked(object obj, EventArgs args)
     {
+        clientActivated.PrintNotes();
         singlecall.Commit(clientActivated);
     }
 

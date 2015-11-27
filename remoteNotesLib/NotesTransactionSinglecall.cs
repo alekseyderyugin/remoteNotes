@@ -9,6 +9,9 @@ namespace remoteNotesLib
 
         public NotesTransactionSinglecall()
         {
+            //Получение инстанса синглтона через remoting. 
+            //Это не обходимо потому что если обратиться к нему локально,
+            //то создастся обычный объект и в итоге клиент и сервер будут иметь разные инстансы "синглтона"
             singleton = (NotesSingleton)Activator.GetObject(typeof(NotesSingleton), "ipc://NotesIpcChannel/NotesSingleton.rem");
             Logger.Write("NoteTransactionSinglecall was created");
         }
@@ -77,6 +80,8 @@ namespace remoteNotesLib
                         notes.RemoveAt(notes.IndexOf(note));
                         break;
                     case State.Updated:
+                        //Обновление таймстампа
+                        note.updatedAt = DateTime.Now;
                         //Получение индекса объекта в списке синглтона 
                         //и замена на обновлённый клиентом
                         notes[notes.IndexOf(note)] = note;
@@ -88,6 +93,22 @@ namespace remoteNotesLib
                         break;
                 }
             }
+            /*В .Net списки не наследуют MarshalByRefObject, но сериализуются,
+              соотвественно, получается так, что получив список по ссылке, мы получаем
+              всего лишь бесполезную копию списка, а не прокси-объект. Так как он был сериализован,
+              передан по сети и десериализован на сервере. Поэтому после добавления,
+              удаления или замены данных в нём, его успешно съедал GC.
+              Однако реализовать список имплементирующий MarshalByRefObject тоже
+              нельзя, потому что каждый вызов будет передаваться по сети (или ipc в
+              данном случае, не важно), что слишком ресурсозатратно (время -- тоже ресурс).
+              Оптимальнее просто передать весь список по окончании обработки.
+              Метод SetPersistentData(List<Note> notes) заменяет список в синглтоне на обновлённый список.
+              Метод имеет модификатор доступа internal и может использоваться только
+              из текущего assembly. Т.е. из классов библиотеки.
+              http://stackoverflow.com/questions/13486467/net-remoting-why-isnt-a-list-remotable
+              http://stackoverflow.com/questions/6503380/how-expensive-is-using-marshalbyrefobject-compared-to-serialization
+              https://msdn.microsoft.com/en-us/library/7c5ka91b.aspx
+             */
             singleton.SetPersistentData(notes);
         }
 
