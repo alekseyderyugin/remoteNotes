@@ -79,6 +79,10 @@ public partial class MainWindow: Gtk.Window
         view.AppendColumn("Title", titleRenderer, "text", 0);
         view.AppendColumn("Content", contentRenderer, "text", 1);
 
+        ScrolledWindow scrolledWindow = new ScrolledWindow();
+        scrolledWindow.SetPolicy(PolicyType.Automatic, PolicyType.Automatic);
+        scrolledWindow.AddWithViewport(view);
+
         try {
             //Если сервер и клиент запускаются из ИДЕ (по порядку, но практически одновременно),
             //сервер не успевает создать сокет, поэтому надо немного подождать
@@ -97,7 +101,8 @@ public partial class MainWindow: Gtk.Window
             store.AddNode(new NoteTreeNode(note));
         }
 
-        nodeViewHBox.PackStart(view, false, true, 0);
+        nodeViewHBox.PackStart(scrolledWindow, false, true, 0);
+        nodeViewHBox.SetSizeRequest(200, 200);
 
         crudButtonsHBox.PackStart(refreshButton, false, true, 0);
         crudButtonsHBox.PackStart(createButton, false, true, 0);
