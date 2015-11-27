@@ -59,18 +59,27 @@ public partial class MainWindow: Gtk.Window
         Button commitButton = new Button("Commit");
         Button rollbackButton = new Button("Rollback");
 
-        refreshButton.Clicked += RefreshAction;
-        createButton.Clicked += CreateAction;
-        updateButton.Clicked += UpdateAction;
-        deleteButton.Clicked += DeleteAction;
-        commitButton.Clicked += CommitAction;
-        rollbackButton.Clicked += rollbackAction;
+        refreshButton.Clicked += RefreshButtonClicked;
+        createButton.Clicked += CreateButtonClicked;
+        updateButton.Clicked += UpdateButtonClicked;
+        deleteButton.Clicked += DeleteButtonClicked;
+        commitButton.Clicked += CommitButtonClicked;
+        rollbackButton.Clicked += RollbackButtonClicked;
 
         HSeparator separator = new HSeparator();
 
         view = new Gtk.NodeView(Store);
-        view.AppendColumn("Title", new Gtk.CellRendererText(), "text", 0);
-        view.AppendColumn("Content", new Gtk.CellRendererText(), "text", 1);
+
+        CellRendererText titleRenderer = new Gtk.CellRendererText();
+        CellRendererText contentRenderer = new Gtk.CellRendererText();
+
+        titleRenderer.Editable = true;
+        contentRenderer.Editable = true;
+        titleRenderer.Edited += NoteTitleEdited;
+        contentRenderer.Edited += NoteContentEdited;
+
+        view.AppendColumn("Title", new CellRendererText(), "text", 0);
+        view.AppendColumn("Content", new CellRendererText(), "text", 1);
 
         try {
             //Если сервер и клиент запускаются из ИДЕ (по порядку, но практически одновременно),
@@ -125,43 +134,76 @@ public partial class MainWindow: Gtk.Window
         }
     }
 
-    private void RefreshAction(object obj, EventArgs args)
+    private void NoteTitleEdited(object o, Gtk.EditedArgs args)
     {
-        clientActivated.PrintNotes();
-        store.Clear();
-        foreach (Note note in singleton.GetPesistentData()) {
-            store.AddNode(new NoteTreeNode(note));
-        }
+        Logger.Write("edited");
+        //Gtk.TreeIter iter;
+        //store.GetIter(out iter, new Gtk.TreePath(args.Path));
+
+        //Song song = (Song)musicListStore.GetValue(iter, 0);
+        //song.Artist = args.NewText;
     }
 
-    private void CreateAction(object obj, EventArgs args)
+    private void NoteContentEdited(object o, Gtk.EditedArgs args)
     {
-        Note note = new Note("", "");
+        Logger.Write("content edited");
+        //Gtk.TreeIter iter;
+        //musicListStore.GetIter(out iter, new Gtk.TreePath(args.Path));
+
+        //Song song = (Song)musicListStore.GetValue(iter, 0);
+        //song.Artist = args.NewText;
+    }
+
+    private void RefreshButtonClicked(object obj, EventArgs args)
+    {
+        //Logger.Write(singleton.GetHashCode().ToString());
+        singleton.PrintNotes();
+        clientActivated.PrintNotes();
+        clientActivated.Clear();
+        store.Clear();
+        FillTable();
+    }
+
+    private void CreateButtonClicked(object obj, EventArgs args)
+    {
+        Note note = new Note("New", "");
         store.AddNode(new NoteTreeNode(note));
         clientActivated.CreateRecord(note);
     }
 
-    private void UpdateAction(object obj, EventArgs args)
+    private void UpdateButtonClicked(object obj, EventArgs args)
     {
-        NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-        clientActivated.UpdateRecord(selected.GetNote());
+        if (view.NodeSelection.SelectedNode != null) {
+            NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
+            clientActivated.UpdateRecord(selected.GetNote());
+        }
     }
 
-    private void DeleteAction(object obj, EventArgs args)
+    private void DeleteButtonClicked(object obj, EventArgs args)
     {
-        NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
-        clientActivated.DeleteRecord(selected.GetNote());
+        if (view.NodeSelection.SelectedNode != null) {
+            NoteTreeNode selected = (NoteTreeNode)view.NodeSelection.SelectedNode;
+            clientActivated.DeleteRecord(selected.GetNote());
+        }
     }
 
-    private void CommitAction(object obj, EventArgs args)
+    private void CommitButtonClicked(object obj, EventArgs args)
     {
         singlecall.Commit(clientActivated);
     }
 
-    private void rollbackAction(object obj, EventArgs args)
+    private void RollbackButtonClicked(object obj, EventArgs args)
     {
         singlecall.Rollback(clientActivated);
-        RefreshAction(obj, args);
+        store.Clear();
+        FillTable();
+    }
+
+    private void FillTable()
+    {
+        foreach (Note note in singleton.GetPesistentData()) {
+            store.AddNode(new NoteTreeNode(note));
+        }
     }
 
     protected void OnDeleteEvent(object sender, DeleteEventArgs a)

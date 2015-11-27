@@ -9,7 +9,7 @@ namespace remoteNotesLib
 
         public NotesTransactionSinglecall()
         {
-            singleton = (NotesSingleton)Activator.GetObject(typeof(NotesSingleton), "http://localhost:13000/NotesSingleton.soap");
+            singleton = (NotesSingleton)Activator.GetObject(typeof(NotesSingleton), "ipc://NotesIpcChannel/NotesSingleton.rem");
             Logger.Write("NoteTransactionSinglecall was created");
         }
 
@@ -20,7 +20,9 @@ namespace remoteNotesLib
 
             Logger.Write("Transaction begin");
             //Проверка целостности, обеспечивающая атомарность транзакции
-            //т.е. либо запишется всё либо ничего
+            //т.е. либо запишется всё, либо ничего
+            //(Да, O(2n). Можно сделать за n создавая промежуточный список 
+            //с оригинальными данными участвующими в транзакции, но лень)
             VerifyTransaction(notes, changedNotes);
             //Завершение транзакции, если проверка пройдена
             completeTransaction(notes, changedNotes);
@@ -41,7 +43,7 @@ namespace remoteNotesLib
                     if (index == -1) {
                         //Запись не найдена, значит она уже была удалена
                         //Rollback();
-                        throw new TransactionException("Не удалось удалить заметку. Она уже была удалена другим клиентом", note);
+                        throw new TransactionException("Не удалось обновить или удалить заметку. Она уже была удалена другим клиентом", note);
                     } else {
                         Note storedNote = notes[index];
                         //На этапе создания объекта и при сохранении в синглколл
@@ -86,6 +88,7 @@ namespace remoteNotesLib
                         break;
                 }
             }
+            singleton.SetPersistentData(notes);
         }
 
         public void Rollback(NotesClientActivated clientActivated)

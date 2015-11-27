@@ -16,8 +16,13 @@ namespace remoteNotesLib
 
         public List<Note> GetPesistentData()
         {
-            Logger.Write("getPersistentData()");
+            Logger.Write("GetPersistentData()");
             return notes;
+        }
+
+        internal void SetPersistentData(List<Note> notes)
+        {
+            this.notes = notes;
         }
 
         private void PopulateNotes()
